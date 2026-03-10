@@ -1,0 +1,21 @@
+[package]
+name = "tossicat-ffi"
+version = "0.1.0"
+edition = "2021"
+description = "C FFI bindings for tossicat - Korean particle (tossi/josa) converter"
+license = "MIT"
+repository = "https://github.com/tossicat/tossicat-ffi"
+keywords = ["korean", "particle", "josa", "ffi", "c"]
+categories = ["localization", "text-processing"]
+
+[lib]
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+# 개발 중에는 GitHub에서 직접 참조합니다.
+# tossicat-core 0.8.0이 crates.io에 배포되면 아래로 교체합니다.
+# tossicat = "0.8"
+tossicat = { git = "https://github.com/tossicat/tossicat-core", branch = "dev" }
+
+[build-dependencies]
+cbindgen = "0.27"
