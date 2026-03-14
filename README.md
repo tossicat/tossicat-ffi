@@ -105,6 +105,18 @@ void show_item_message(const char* item_name) {
   반환한 문자열은 **반드시 `tossicat_free()`로 해제**해야 합니다.
 - NULL 포인터를 입력하면 NULL을 반환합니다.
 
+## CI
+
+[![CI](https://github.com/tossicat/tossicat-ffi/actions/workflows/ci.yml/badge.svg)](https://github.com/tossicat/tossicat-ffi/actions/workflows/ci.yml)
+
+`main` 브랜치에 push하거나 PR을 올리면 GitHub Actions를 통해 자동으로 테스트와 빌드가 실행됩니다.
+
+- **Linux**, **macOS**, **Windows** 3개 플랫폼에서 병렬 실행
+- `cargo test` — 단위 테스트 자동 실행
+- `cargo build --release` — 릴리스 빌드 및 산출물 artifact 업로드
+
+결과는 [Actions 탭](https://github.com/tossicat/tossicat-ffi/actions)에서 확인할 수 있습니다.
+
 ## 의존성
 
 - 기본: [tossicat](https://crates.io/crates/tossicat) 0.7 (crates.io)
