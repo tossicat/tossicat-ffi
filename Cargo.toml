@@ -1,6 +1,6 @@
 [package]
 name = "tossicat-ffi"
-version = "0.1.0"
+version = "0.7.0"
 edition = "2021"
 description = "C FFI bindings for tossicat - Korean particle (tossi/josa) converter"
 license = "MIT"
