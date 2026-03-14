@@ -17,7 +17,7 @@ cargo build --release
 - `target/release/libtossicat_ffi.dylib` (macOS)
 - `target/release/tossicat_ffi.dll` (Windows)
 
-## 사용법 (C)
+## C 언어에서 사용법
 
 ```c
 #include "tossicat.h"
