@@ -15,6 +15,11 @@
 //! tossicat_free(result);
 //! ```
 
+#[cfg(feature = "source-crates-io")]
+use tossicat_crates as tossicat;
+#[cfg(feature = "source-github")]
+use tossicat_git as tossicat;
+
 use std::ffi::{CStr, CString};
 use std::os::raw::c_char;
 use std::ptr;

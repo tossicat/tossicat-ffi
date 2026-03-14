@@ -11,11 +11,14 @@ categories = ["localization", "text-processing"]
 [lib]
 crate-type = ["cdylib", "staticlib"]
 
+[features]
+default = ["source-crates-io"]
+source-crates-io = ["dep:tossicat-crates"]
+source-github = ["dep:tossicat-git"]
+
 [dependencies]
-# 개발 중에는 GitHub에서 직접 참조합니다.
-# tossicat-core 0.8.0이 crates.io에 배포되면 아래로 교체합니다.
-# tossicat = "0.8"
-tossicat = { git = "https://github.com/tossicat/tossicat-core", branch = "dev" }
+tossicat-crates = { package = "tossicat", version = "0.7", optional = true }
+tossicat-git = { package = "tossicat", git = "https://github.com/tossicat/tossicat-core", branch = "dev", optional = true }
 
 [build-dependencies]
 cbindgen = "0.27"

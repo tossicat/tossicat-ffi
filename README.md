@@ -56,9 +56,10 @@ gcc -o example example.c -L target/release -ltossicat_ffi
 gcc -o example example.c -L target/release -ltossicat_ffi
 ```
 
-## 게임에서의 활용
+## 이 프로젝트의 장점
 
-한국어 게임에서 아이템명이나 캐릭터명에 따라 조사를 자동으로 붙일 수 있습니다.
+- 토시를 추가하면 개발 중인 [tossicat-core](https://github.com/tossicat/tossicat-core)을 직접 사용할 수 있습니다.
+- 게임에서의 활용: 한국어 게임에서 아이템명이나 캐릭터명에 따라 조사를 자동으로 붙일 수 있습니다.
 
 ```c
 // 게임 아이템 획득 메시지
