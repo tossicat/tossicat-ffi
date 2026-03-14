@@ -58,8 +58,15 @@ gcc -o example example.c -L target/release -ltossicat_ffi
 
 ## 이 프로젝트의 장점
 
-- 토시를 추가하면 개발 중인 [tossicat-core](https://github.com/tossicat/tossicat-core)을 직접 사용할 수 있습니다.
-- 게임에서의 활용: 한국어 게임에서 아이템명이나 캐릭터명에 따라 조사를 자동으로 붙일 수 있습니다.
+- **의존성 소스 선택 가능**: Cargo features를 통해 crates.io 안정 버전과 GitHub dev 브랜치 중 선택할 수 있습니다.
+  ```bash
+  # crates.io 안정 버전 (기본값)
+  cargo build --release
+
+  # GitHub dev 브랜치 (최신 개발 버전)
+  cargo build --release --no-default-features --features source-github
+  ```
+- **게임에서의 활용**: 한국어 게임에서 아이템명이나 캐릭터명에 따라 조사를 자동으로 붙일 수 있습니다.
 
 ```c
 // 게임 아이템 획득 메시지
@@ -99,8 +106,97 @@ void show_item_message(const char* item_name) {
 
 ## 의존성
 
-- 개발 중: [tossicat-core](https://github.com/tossicat/tossicat-core) (GitHub dev 브랜치)
-- 배포 후: [tossicat](https://crates.io/crates/tossicat) 0.8+
+- 기본: [tossicat](https://crates.io/crates/tossicat) 0.7 (crates.io)
+- 선택: [tossicat-core](https://github.com/tossicat/tossicat-core) dev 브랜치 (`--features source-github`)
+
+## 활용 방법
+
+빌드된 라이브러리(`libtossicat_ffi.so`/`.dylib`/`.dll`)와 헤더 파일(`include/tossicat.h`)을 프로젝트에 복사하여 사용합니다.
+
+### C/C++
+
+헤더를 포함하고 라이브러리를 링크합니다.
+
+```bash
+gcc -o myapp myapp.c -I include -L target/release -ltossicat_ffi
+```
+
+실행 시 동적 라이브러리 경로를 지정합니다.
+
+```bash
+# Linux
+LD_LIBRARY_PATH=target/release ./myapp
+
+# macOS
+DYLD_LIBRARY_PATH=target/release ./myapp
+```
+
+### Unreal Engine (C++)
+
+1. 빌드된 라이브러리를 `Plugins/TossiCat/Binaries/` 에 복사합니다.
+2. `tossicat.h`를 `Plugins/TossiCat/Source/` 에 복사합니다.
+3. `.Build.cs`에서 라이브러리를 링크합니다.
+
+```cpp
+#include "tossicat.h"
+
+FString GetItemMessage(const FString& ItemName) {
+    FString Template = FString::Printf(TEXT("{%s, 을} 획득했습니다!"), *ItemName);
+    char* Result = tossicat_modify_sentence(TCHAR_TO_UTF8(*Template));
+    if (Result) {
+        FString Message = UTF8_TO_TCHAR(Result);
+        tossicat_free(Result);
+        return Message;
+    }
+    return TEXT("");
+}
+```
+
+### Unity (C#)
+
+```csharp
+using System.Runtime.InteropServices;
+
+public static class TossiCat {
+    [DllImport("tossicat_ffi")]
+    private static extern IntPtr tossicat_postfix(string word, string tossi);
+
+    [DllImport("tossicat_ffi")]
+    private static extern IntPtr tossicat_modify_sentence(string sentence);
+
+    [DllImport("tossicat_ffi")]
+    private static extern void tossicat_free(IntPtr ptr);
+
+    public static string Postfix(string word, string tossi) {
+        IntPtr ptr = tossicat_postfix(word, tossi);
+        if (ptr == IntPtr.Zero) return null;
+        string result = Marshal.PtrToStringUTF8(ptr);
+        tossicat_free(ptr);
+        return result;
+    }
+
+    public static string ModifySentence(string sentence) {
+        IntPtr ptr = tossicat_modify_sentence(sentence);
+        if (ptr == IntPtr.Zero) return null;
+        string result = Marshal.PtrToStringUTF8(ptr);
+        tossicat_free(ptr);
+        return result;
+    }
+}
+
+// 사용 예시
+// string msg = TossiCat.Postfix("포션", "을");  // "포션을"
+```
+
+### Godot (GDScript + GDExtension)
+
+GDExtension C API를 통해 바인딩하거나, GDNative를 사용합니다.
+
+```gdscript
+# gdextension으로 래핑한 경우
+var result = TossiCat.postfix("포션", "을")
+print(result)  # "포션을"
+```
 
 ## 라이선스
 
