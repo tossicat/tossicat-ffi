@@ -18,7 +18,7 @@ source-github = ["dep:tossicat-git"]
 
 [dependencies]
 tossicat-crates = { package = "tossicat", version = "0.7", optional = true }
-tossicat-git = { package = "tossicat", git = "https://github.com/tossicat/tossicat-core", branch = "dev", optional = true }
+tossicat-git = { package = "tossicat", git = "https://github.com/tossicat/tossicat-core", branch = "main", optional = true }
 
 [build-dependencies]
 cbindgen = "0.27"

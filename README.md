@@ -95,6 +95,7 @@ void show_item_message(const char* item_name) {
 | `tossicat_postfix(word, tossi)` | 단어에 토시를 붙여 반환 |
 | `tossicat_modify_sentence(sentence)` | 문장 내 여러 토시를 일괄 변환 |
 | `tossicat_guess_final_letter(word)` | 단어의 마지막 글자 종성 반환 |
+| `tossicat_last_error()` | 마지막 에러 메시지 반환 (해제 불필요) |
 | `tossicat_free(ptr)` | 반환된 문자열 메모리 해제 |
 
 ## 주의사항
