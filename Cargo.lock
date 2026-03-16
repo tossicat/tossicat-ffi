@@ -441,21 +441,21 @@ checksum = "5d99f8c9a7727884afe522e9bd5edbfc91a3312b36a77b5fb8926e4c31a41801"
 [[package]]
 name = "tossicat"
 version = "0.7.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b91d9066212aa39026866deeaea5dfa81f320a46cf03717863beff1eee899c11"
-
-[[package]]
-name = "tossicat"
-version = "0.7.0"
 source = "git+https://github.com/tossicat/tossicat-core?branch=main#c7f5d8627e41cf96c3e664d154e0574d2f589d04"
 
 [[package]]
+name = "tossicat"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e1b950edc75a246d0c27c4313258e1a68fc2e762ad3dba9dc81bbda3d14cdb45"
+
+[[package]]
 name = "tossicat-ffi"
-version = "0.1.0"
+version = "0.8.0"
 dependencies = [
  "cbindgen",
- "tossicat 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "tossicat 0.7.0 (git+https://github.com/tossicat/tossicat-core?branch=main)",
+ "tossicat 0.7.0",
+ "tossicat 0.8.0",
 ]
 
 [[package]]

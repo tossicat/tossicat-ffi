@@ -119,7 +119,7 @@ void show_item_message(const char* item_name) {
 
 ## 의존성
 
-- 기본: [tossicat](https://crates.io/crates/tossicat) 0.7 (crates.io)
+- 기본: [tossicat](https://crates.io/crates/tossicat) 0.8 (crates.io)
 - 선택: [tossicat-core](https://github.com/tossicat/tossicat-core) dev 브랜치 (`--features source-github`)
 
 ## 활용 방법
