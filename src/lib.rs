@@ -256,9 +256,9 @@ mod tests {
     use super::*;
     use std::ffi::CString;
 
-    /// CStr 포인터에서 &str로 변환하는 헬퍼
-    unsafe fn ptr_to_str(ptr: *const c_char) -> &'static str {
-        unsafe { CStr::from_ptr(ptr) }.to_str().unwrap()
+    /// CStr 포인터에서 String으로 변환하는 헬퍼
+    unsafe fn ptr_to_str(ptr: *const c_char) -> String {
+        unsafe { CStr::from_ptr(ptr) }.to_str().unwrap().to_owned()
     }
 
     /// 결과 포인터를 String으로 변환하고 메모리를 해제하는 헬퍼
