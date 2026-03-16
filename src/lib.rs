@@ -19,6 +19,11 @@
 //! }
 //! ```
 
+#[cfg(all(feature = "source-crates-io", feature = "source-github"))]
+compile_error!(
+    "feature \"source-crates-io\"와 \"source-github\"는 동시에 사용할 수 없습니다. 하나만 선택하세요."
+);
+
 #[cfg(feature = "source-crates-io")]
 use tossicat_crates as tossicat;
 #[cfg(feature = "source-github")]
@@ -306,10 +311,8 @@ mod tests {
         let word = CString::new("").unwrap();
         let tossi = CString::new("을").unwrap();
         let result = tossicat_postfix(word.as_ptr(), tossi.as_ptr());
-        // 빈 문자열이라도 크래시 없이 처리되어야 함
-        if !result.is_null() {
-            tossicat_free(result);
-        }
+        // 빈 문자열이면 변환 불가하므로 모든 변형을 포함한 결과 반환
+        assert_eq!(unsafe { take_result(result) }, "(을)를");
     }
 
     // === modify_sentence 테스트 ===
@@ -332,9 +335,7 @@ mod tests {
     fn modify_sentence_토시_없는_문장() {
         let sentence = CString::new("일반 문장입니다.").unwrap();
         let result = tossicat_modify_sentence(sentence.as_ptr());
-        if !result.is_null() {
-            assert_eq!(unsafe { take_result(result) }, "일반 문장입니다.");
-        }
+        assert_eq!(unsafe { take_result(result) }, "일반 문장입니다.");
     }
 
     // === guess_final_letter 테스트 ===
@@ -343,16 +344,14 @@ mod tests {
     fn guess_final_letter_종성있음() {
         let word = CString::new("포션").unwrap();
         let result = tossicat_guess_final_letter(word.as_ptr());
-        assert!(!result.is_null());
-        tossicat_free(result);
+        assert_eq!(unsafe { take_result(result) }, "ㄴ");
     }
 
     #[test]
     fn guess_final_letter_종성없음() {
         let word = CString::new("마나").unwrap();
         let result = tossicat_guess_final_letter(word.as_ptr());
-        assert!(!result.is_null());
-        tossicat_free(result);
+        assert_eq!(unsafe { take_result(result) }, " ");
     }
 
     #[test]
